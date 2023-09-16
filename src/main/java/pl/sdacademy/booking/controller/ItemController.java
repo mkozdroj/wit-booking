@@ -13,9 +13,9 @@ public class ItemController {
     }
 
     public void presentCatalog() {
-        System.out.println("\n KATALOG ");
+        System.out.println("\n ----- KATALOG PRODUKTOW ----- ");
         itemService.findItems()
                 .forEach(itemDto -> System.out.println(itemDto));
-        System.out.println("\n KONIEC KATALOGU ");
+        System.out.println(" ----- KONIEC KATALOGU PRODUKTOW ----- ");
     }
 }
