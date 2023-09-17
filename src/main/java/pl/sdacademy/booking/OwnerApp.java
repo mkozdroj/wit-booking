@@ -20,7 +20,10 @@ public class OwnerApp {
             new ItemController().presentCatalog();
         }
         if (inputValue == 2) {
-            new EventController().presentCatalog();
+            new EventController().presentEventSchedule();
         }
+
+
     }
+
 }
