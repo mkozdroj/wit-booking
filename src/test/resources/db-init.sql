@@ -66,3 +66,7 @@ values (1, 1, '2023-09-13 12:00:00', '2023-09-13 12:50:00'),
 
 insert into booking (id, event_id, customer_name, customer_contact)
 values (1, 1, 'ĄąłłóóĘęŚśĆćŃń', 'nie podane');
+
+INSERT INTO event (id, item_id, time_from, time_to)
+values  (1, 1, "2023-09-18 12:30:00", "2023-09-18 13:30:00"),
+        (2, 2, "2023-09-18 15:00:00", "2023-09-18 15:30:00");

@@ -12,7 +12,7 @@ public class EventController {
         this.eventService = new EventService(new EventRepositoryImpl());
     }
 
-    public void presentCatalog() {
+    public void presentEventSchedule() {
         System.out.println("\n ----- TERMINARZ SESJI ----- ");
 
         eventService.findEvents().forEach(System.out::println);
