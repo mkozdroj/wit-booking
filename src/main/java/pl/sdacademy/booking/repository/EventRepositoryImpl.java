@@ -36,7 +36,7 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public Long findEventsByDate(LocalDateTime date) {
         TypedQuery<Long> query = entityManager
-                .createQuery("SELECT event FROM EventEntity event where time_from=:dateParam"
+                .createQuery("SELECT event FROM EventEntity event where time_from<=:dateParam and time_to>=:dateParam"
                         , Long.class);
         query.setParameter("dateParam", date);
 

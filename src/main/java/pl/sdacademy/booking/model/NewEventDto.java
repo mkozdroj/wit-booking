@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Data
 public class NewEventDto {
     private String itemName;
-    private BigDecimal itemPrice;
     private LocalDateTime fromTime;
     private LocalDateTime toTime;
 

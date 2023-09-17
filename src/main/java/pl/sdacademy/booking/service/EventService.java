@@ -40,8 +40,9 @@ public class EventService {
             return "Sesja już istnieje.";
         }
         EventEntity eventEntity = new EventEntity();
-        eventEntity.getItem().setName(newEvent.getItemName());
-        eventEntity.getItem().setPrice(newEvent.getItemPrice());
+
+        //tutaj bedzie wyszukiwanie id_itemu po jego nazwie - być może możn a wykorzystać metode repostitory Item findbyName
+        //eventEntity.setItem(itemId)
         eventEntity.setFrom(newEvent.getFromTime());
         eventEntity.setTo(newEvent.getToTime());
         eventRepository.addEvent(eventEntity);
