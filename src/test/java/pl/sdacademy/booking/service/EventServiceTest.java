@@ -38,19 +38,17 @@ class EventServiceTest {
 
 
         EventDto second = result.get(1);
-        assertThat(second.getItemName()).isNull();
+        assertThat(second.getItemName()).isEqualTo("jeden");
     }
 
     public static class TestEventRepository implements EventRepository {
 
         @Override
         public List<EventEntity> findEvents() {
-            Set<ItemEntity> items = new HashSet<>();
             ItemEntity firstItem = new ItemEntity();
             firstItem.setId(1L);
             firstItem.setName("jeden");
             firstItem.setDescription("opis pierwszy");
-            firstItem.setAttributes(new HashSet<>());
             firstItem.setPrice(BigDecimal.valueOf(120.0));
             EventEntity first = new EventEntity();
             first.setId(1l);
@@ -62,8 +60,7 @@ class EventServiceTest {
             second.setId(2l);
             second.setFrom(LocalDateTime.of(2023, 9, 18, 11, 30, 00));
             second.setTo(LocalDateTime.of(2023, 9, 18, 12, 30, 00));
-            second.setItem(new ItemEntity());
-            second.setItem(new ItemEntity());
+            second.setItem(firstItem);
             return List.of(first, second);
         }
 
