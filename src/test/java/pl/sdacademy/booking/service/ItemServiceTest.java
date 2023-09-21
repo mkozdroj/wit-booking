@@ -26,6 +26,7 @@ class ItemServiceTest {
         ItemDto first = result.get(0);
         // liczba ponizszych asercji sygnalizuje, ze klasa moze miec za duzo odpowiedzialnosci
         // powinna zostac podzielona na bardziej specjalistyczne klasy
+        assertThat(first.getId()).isEqualTo(1L);
         assertThat(first.getName()).isEqualTo("Pierwszy");
         assertThat(first.getDescription()).isEqualTo("Przykladowy opis");
         assertThat(first.getPrice()).isEqualTo(BigDecimal.valueOf(120.0));

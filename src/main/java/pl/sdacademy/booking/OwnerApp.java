@@ -2,7 +2,6 @@ package pl.sdacademy.booking;
 
 import pl.sdacademy.booking.controller.EventController;
 import pl.sdacademy.booking.controller.ItemController;
-
 import java.util.Scanner;
 
 public class OwnerApp {

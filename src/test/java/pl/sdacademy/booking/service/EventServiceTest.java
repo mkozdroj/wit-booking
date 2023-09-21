@@ -2,16 +2,14 @@ package pl.sdacademy.booking.service;
 
 import org.junit.jupiter.api.Test;
 import pl.sdacademy.booking.data.EventEntity;
-import pl.sdacademy.booking.data.ItemAttributeEntity;
 import pl.sdacademy.booking.data.ItemEntity;
 import pl.sdacademy.booking.model.EventDto;
 import pl.sdacademy.booking.repository.EventRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,21 +19,22 @@ class EventServiceTest {
 
     @Test
     void shouldResultAllEventsInDbAsListOfDto() {
+        //GIVEN
         sut = new EventService(new TestEventRepository());
 
+        //WHEN
         List<EventDto> result = sut.findEvents();
 
+        //THEN
         assertThat(result).hasSize(2);
         EventDto first = result.get(0);
         // liczba ponizszych asercji sygnalizuje, ze klasa moze miec za duzo odpowiedzialnosci
         // powinna zostac podzielona na bardziej specjalistyczne klasy
+        assertThat(first.getId()).isEqualTo(1L);
         assertThat(first.getItemName()).isEqualTo("jeden");
         assertThat(first.getItemPrice()).isEqualTo(BigDecimal.valueOf(120.0));
         assertThat(first.getFromTime()).isEqualTo(LocalDateTime.of(2023, 9, 18, 10, 30, 00));
         assertThat(first.getToTime()).isEqualTo(LocalDateTime.of(2023, 9, 18, 11, 30, 00));
-
-        assertThat(first.getItemName()).hasSize(5);
-
 
         EventDto second = result.get(1);
         assertThat(second.getItemName()).isEqualTo("jeden");
