@@ -20,7 +20,8 @@ class EventServiceTest {
     @Test
     void shouldResultAllEventsInDbAsListOfDto() {
         //GIVEN
-        sut = new EventService(new TestEventRepository());
+        sut = new EventService(new TestItemRepository(), new TestEventRepository());
+
 
         //WHEN
         List<EventDto> result = sut.findEvents();
