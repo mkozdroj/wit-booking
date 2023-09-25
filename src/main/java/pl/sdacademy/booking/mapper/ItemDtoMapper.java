@@ -7,13 +7,13 @@ import java.util.Set;
 
 public class ItemDtoMapper {
     public static ItemDto map(ItemEntity entity, Set<String> attributes) {
-        ItemDto.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .price(entity.getPrice())
-                .description(entity.getDescription())
-                .attributes(attributes)
-                .build();
+       return ItemDto.builder()
+               .id(entity.getId())
+               .name(entity.getName())
+               .price(entity.getPrice())
+               .description(entity.getDescription())
+               .attributes(attributes)
+               .build();
 
     }
 }
