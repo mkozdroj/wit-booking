@@ -44,11 +44,7 @@ public class NewEventDtoValidator {
 
         // if (newEventDto.getItemName() == null || newEventDto.getItemName().isEmpty()) {
         if (StringUtils.isBlank(newEventDto.getItemName())) {
-            //zawsze najpierw sprawdzamy czy coś jest nullem
-            //a potem czy jet puste
-            //Poniżej tzw. short-circuit evaluation:
-            // true || willNeverExecute();
-            //false && willNeverExecute();
+           
 
             result.add("Item name is not set");
         }
