@@ -37,7 +37,7 @@ public class NewEventDtoValidator {
             if (newEventDto.getToTime().isBefore(timeNow.now())) {
                 result.add("To is in the past");
             }
-            if ((newEventDto.getFromTime().getHour() >= 16) || (newEventDto.getFromTime().getHour() <= 8)) {
+            if ((newEventDto.getToTime().minusMinutes(1L).getHour() >= 16) || (newEventDto.getFromTime().getHour() < 8)) {
                 result.add("NewEvent outside working hours");
             }
         }
