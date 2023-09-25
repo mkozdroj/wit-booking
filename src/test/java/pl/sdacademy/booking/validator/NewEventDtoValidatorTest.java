@@ -2,57 +2,33 @@ package pl.sdacademy.booking.validator;
 
 import org.junit.jupiter.api.Test;
 import pl.sdacademy.booking.model.NewEventDto;
+import pl.sdacademy.booking.util.TimeNow;
+import pl.sdacademy.booking.util.TimeNowStub;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class NewEventDtoValidatorTest {
-
-    @Test
-    void name() {
-        NewEventDto input = NewEventDto.builder()
-                .itemName("przykład")
-                .fromTime(LocalDateTime.of(2023, 9, 19, 19, 59))
-                .toTime(LocalDateTime.of(2023, 9, 19, 19, 57))
-                .build();
-        NewEventDtoValidator.validate(input);
-    }
-
     @Test
     void shouldCheckThatFromIsNull() {
-        //GIVEN
-        NewEventDto input = NewEventDto.builder()
-                .itemName("przykład")
+        NewEventDto input = NewEventDto.builder().itemName("przykad")
                 .fromTime(null)
-                .toTime(LocalDateTime.of(2023, 9, 19, 19, 57))
+                .toTime(LocalDateTime.of(2023, 9, 19, 19, 56))
                 .build();
-
-        //WHEN
-        List<String> result = NewEventDtoValidator.validate(input);
-
-        //THEN
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
         assertThat(result).hasSize(1).contains("From is null");
 
     }
 
     @Test
     void shouldCheckThatToIsNull() {
-        //GIVEN
-        NewEventDto input = NewEventDto.builder()
-                .itemName("przykład")
+        NewEventDto input = NewEventDto.builder().itemName("przykad")
                 .toTime(null)
-                .fromTime(LocalDateTime.of(2023, 9, 19, 19, 57))
+                .fromTime(LocalDateTime.of(2023, 9, 19, 19, 56))
                 .build();
-
-        //WHEN
-        List<String> result = NewEventDtoValidator.validate(input);
-
-        //THEN
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
         assertThat(result).hasSize(1).contains("To is null");
 
     }
@@ -60,21 +36,87 @@ class NewEventDtoValidatorTest {
     @Test
     void shouldCheckThatToAndFromIsNull() {
         //GIVEN
-        NewEventDto input = NewEventDto.builder()
-                .itemName("przykład")
+        NewEventDto input = NewEventDto.builder().itemName("przykad")
                 .toTime(null)
                 .fromTime(null)
                 .build();
-
         //WHEN
-        List<String> result = NewEventDtoValidator.validate(input);
-
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
         //THEN
-        assertThat(result).hasSize(2).containsExactly("From is null", "To is null");
+        assertThat(result).hasSize(2).contains("To is null");
 
     }
-    //ZADANIE  - DOKONCZENIE VALIDATORA Z TESTAMI
-    //DLA CHĘTNYCH - DODATKOWA FUNKCJONALNOSC, NP MAPPER PODOBNIE DO VALIDATORA, ALE MA INNA FUNKCJONALNOSC (ENCJI DO DTO)
-    //mapper OSOBNY PAKIET? CHYBA
 
+    @Test
+    void shouldPositivelyValidateNewEvent() {
+        NewEventDto input = NewEventDto.builder()
+                .itemName("Henna")
+                .fromTime(LocalDateTime.of(2023, 10, 12, 10, 30, 00))
+                .toTime(LocalDateTime.of(2023, 10, 12, 10, 45, 00))
+                .build();
+
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
+
+        assertThat(result).hasSize(0); //zero ponieważ nie ma komunikatów o błędach
+
+    }
+
+    @Test
+    void shouldCheckNewEventNull() {
+        List<String> result = NewEventDtoValidator.validate(null, new TimeNowStub());
+
+        assertThat(result).hasSize(1).contains("Event is null");
+    }
+
+    @Test
+    void shouldCheckDuration() {
+        NewEventDto input = NewEventDto.builder()
+                .itemName("Henna")
+                .fromTime(LocalDateTime.of(2023, 10, 12, 10, 10, 00))
+                .toTime(LocalDateTime.of(2023, 10, 12, 10, 45, 00))
+                .build();
+
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
+
+        assertThat(result).hasSize(1).contains("Event too long");
+    }
+
+    @Test
+    void shouldCheckFromToOrder() {
+        NewEventDto input = NewEventDto.builder()
+                .itemName("Henna")
+                .toTime(LocalDateTime.of(2023, 10, 12, 10, 10, 00))
+                .fromTime(LocalDateTime.of(2023, 10, 12, 10, 45, 00))
+                .build();
+
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
+
+        assertThat(result).hasSize(1).contains("To is before from");
+    }
+
+    @Test
+    void shouldCheckNameIsNull() {
+        NewEventDto input = NewEventDto.builder()
+                .itemName(null)
+                .fromTime(LocalDateTime.of(2023, 10, 12, 10, 30, 00))
+                .toTime(LocalDateTime.of(2023, 10, 12, 10, 45, 00))
+                .build();
+
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
+
+        assertThat(result).hasSize(1).contains("Item name is not set");
+    }
+
+    @Test
+    void shouldCheckNameIsEmpty() {
+        NewEventDto input = NewEventDto.builder()
+                .itemName("")
+                .fromTime(LocalDateTime.of(2023, 10, 12, 10, 30, 00))
+                .toTime(LocalDateTime.of(2023, 10, 12, 10, 45, 00))
+                .build();
+
+        List<String> result = NewEventDtoValidator.validate(input, new TimeNowStub());
+
+        assertThat(result).hasSize(1).contains("Item name is not set");
+    }
 }
